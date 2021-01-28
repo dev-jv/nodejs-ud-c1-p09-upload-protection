@@ -15,10 +15,12 @@ const userSchema = new Schema({
         required: [true, 'La contraseña es necesaria']
     },
     img: {
+        type: String,
         required: false
     },
     role: {
-        default: 'USER_ROLE',
+        type: String,
+        default: 'USER_ROLE'
     },
     state: {
         type: Boolean,
