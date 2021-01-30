@@ -11,10 +11,11 @@ app.use (bodyParser.json());
 
 app.use( require('./routes/user') );
 
-mongoose.connect('mongodb://localhost:27017/cafe', {
+mongoose.connect('mongodb://localhost:27017/insight', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 }, (err, res) => {
     if (err) throw err;
     console.log('Base de Datos ONLINE')

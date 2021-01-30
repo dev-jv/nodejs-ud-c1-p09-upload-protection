@@ -1,4 +1,12 @@
 const mongoose = require('mongoose');
+
+const uniqueValidator = require('mongoose-unique-validator');
+
+const rolesValidos = {
+    values: [ 'USER_ROLE', 'ADMIN_ROLE' ],
+    message: '{VALUE} no es un rol válido'
+};
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -8,7 +16,8 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: [true, 'El email es necesario']
+        required: [true, 'El email es necesario'],
+        unique: true
     },
     password: {
         type: String,
@@ -20,7 +29,8 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        default: 'USER_ROLE'
+        default: 'USER_ROLE',
+        enum: rolesValidos
     },
     state: {
         type: Boolean,
@@ -32,4 +42,6 @@ const userSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único'});
+
+module.exports = mongoose.model('User', userSchema); // la collecion se llamará... users
