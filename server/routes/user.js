@@ -22,11 +22,14 @@ app.get('/usuario', (req, res) => {
                     err
                 })
             }
-            res.json({
-                ok: true,
-                usuarios
-            })
-        });
+            User.count({}, (err, ctr) => {
+               res.json({
+                   ok: true,
+                   usuarios,
+                   cantidad: ctr 
+               })
+            });
+       });
 });
 
 app.post('/usuario', (req, res) => {
