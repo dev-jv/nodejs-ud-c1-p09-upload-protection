@@ -9,10 +9,10 @@ app.get('/usuario', (req, res) => {
     let des = req.query.des || 0;
     des = Number(des);
 
-    let lim = req.query.lim || 5;
+    let lim = req.query.lim || 10;
     lim = Number(lim);
 
-   User.find({}, 'name email') // Exclusión...
+   User.find({state: true}, 'name email') // Exclusión...
        .skip(des) // desde...
        .limit(lim) // cantidad..
        .exec((err, usuarios) => {
@@ -22,7 +22,7 @@ app.get('/usuario', (req, res) => {
                     err
                 })
             }
-            User.count({}, (err, ctr) => {
+            User.count({state: true}, (err, ctr) => {
                res.json({
                    ok: true,
                    usuarios,
@@ -79,8 +79,35 @@ app.put('/usuario/:id', (req, res) => {
 });
 
 app.delete('/usuario/:id', (req, res) => {
+    //------------------------------ <> Eliminar en la DB
+    // let id = req.params.id;
+    // User.findByIdAndRemove(id, (err, userDel) => {
+    //     if( err ) {
+    //         return res.status(400).json({
+    //             ok: false,
+    //             err
+    //         });
+    //     }
+    //     if(userDel === null) {
+    //         return res.status(400).json({
+    //             ok: false,
+    //             err: {
+    //                 message: 'Usuario no encontrado!'
+    //             }
+    //         });
+    //     }
+    //     res.json({
+    //         ok: true,
+    //         usuario: userDel
+    //     })
+    // })
+    //------------------------------ <> Cambiar el State a false
     let id = req.params.id;
-    User.findByIdAndRemove(id, (err, userDel) => {
+    User.findByIdAndUpdate(id, {state: false}, { // update: {...}
+        new: true, // Devuelve el obj actualizado
+        runValidators: true, // Permite las validaciones
+        context: 'query', // Permite mongoose-unique-validator
+    }, (err, userDel) => {
         if( err ) {
             return res.status(400).json({
                 ok: false,
