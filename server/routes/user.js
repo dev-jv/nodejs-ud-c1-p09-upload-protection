@@ -5,7 +5,28 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 app.get('/usuario', (req, res) => {
-    res.json('get Usuario');
+
+    let des = req.query.des || 0;
+    des = Number(des);
+
+    let lim = req.query.lim || 5;
+    lim = Number(lim);
+
+   User.find({})
+       .skip(des) // desde...
+       .limit(lim) // cantidad..
+       .exec((err, usuarios) => {
+            if( err ) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                usuarios
+            })
+        });
 });
 
 app.post('/usuario', (req, res) => {
@@ -19,12 +40,7 @@ app.post('/usuario', (req, res) => {
     });
 
     user.save( (err, userDB) => {
-        if( err ) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
+
         res.json({
             ok: true,
             user: userDB
