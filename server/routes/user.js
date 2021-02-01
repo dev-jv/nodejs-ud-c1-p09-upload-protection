@@ -12,7 +12,7 @@ app.get('/usuario', (req, res) => {
     let lim = req.query.lim || 5;
     lim = Number(lim);
 
-   User.find({})
+   User.find({}, 'name email') // Exclusión...
        .skip(des) // desde...
        .limit(lim) // cantidad..
        .exec((err, usuarios) => {
@@ -26,7 +26,7 @@ app.get('/usuario', (req, res) => {
                res.json({
                    ok: true,
                    usuarios,
-                   cantidad: ctr 
+                   cantidad: ctr
                })
             });
        });
