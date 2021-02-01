@@ -10,7 +10,7 @@ const rolesValidos = {
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    nombre: {
+    name: {
         type: String,
         required: [true, 'El nombre es necesario']
     },
