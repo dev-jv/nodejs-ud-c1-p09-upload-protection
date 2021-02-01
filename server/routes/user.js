@@ -33,8 +33,19 @@ app.post('/usuario', (req, res) => {
 
 app.put('/usuario/:id', (req, res) => {
     let id = req.params.id;
-    res.json({
-        id
+    let body = req.body;
+
+    User.findByIdAndUpdate(id, body, {new: true},(err, userDB) => {
+        if( err ) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+            user: userDB,
+        });
     });
 });
 
