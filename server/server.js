@@ -11,7 +11,7 @@ app.use (bodyParser.json());
 
 app.use( require('./routes/user') );
 
-mongoose.connect('mongodb://localhost:27017/insight', {
+mongoose.connect(process.env.KDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
