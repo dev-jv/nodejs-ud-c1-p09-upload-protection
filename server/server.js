@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use (bodyParser.json());
 
-app.use( require('./routes/user') );
+app.use( require('./routes/index') );
 
 mongoose.connect(process.env.KDB, {
     useNewUrlParser: true,
