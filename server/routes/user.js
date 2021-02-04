@@ -3,8 +3,9 @@ const app = express();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const {verifyToken} = require('../middlewares/authentication');
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario', verifyToken, (req, res) => {
 
     let des = req.query.des || 0;
     des = Number(des);

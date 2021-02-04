@@ -17,9 +17,7 @@ if ( process.env.NODE_ENV === 'dev' ) {
 process.env.KDB = urlDB;
 
 // Token expiration time
-
 process.env.EXP_TOKEN = 60 * 60 * 24 * 30;
 
 // SEED
-
 process.env.SEED = process.env.SEED || 'maple-seeds-in-development';
