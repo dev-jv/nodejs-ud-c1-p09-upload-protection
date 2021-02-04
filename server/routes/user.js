@@ -3,15 +3,15 @@ const app = express();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
-const {verifyToken} = require('../middlewares/authentication');
+const {verifyToken, verifyAdmin_Role} = require('../middlewares/authentication');
 
 app.get('/usuario', verifyToken, (req, res) => {
 
-    return res.json({
-        user: req.user,
-        name: req.user.name,
-        email: req.user.email,
-    });
+    // return res.json({
+    //     user: req.user,
+    //     name: req.user.name,
+    //     email: req.user.email,
+    // });
 
     let des = req.query.des || 0;
     des = Number(des);
@@ -39,7 +39,7 @@ app.get('/usuario', verifyToken, (req, res) => {
        });
 });
 
-app.post('/usuario', verifyToken, (req, res) => {
+app.post('/usuario', [verifyToken, verifyAdmin_Role], (req, res) => {
     let body = req.body;
 
     let user = new User({
@@ -58,7 +58,7 @@ app.post('/usuario', verifyToken, (req, res) => {
     });
 });
 
-app.put('/usuario/:id', verifyToken, (req, res) => {
+app.put('/usuario/:id', [verifyToken, verifyAdmin_Role], (req, res) => {
     let id = req.params.id;
     // let body = req.body;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'state']); // excepto.. password, google
