@@ -9,7 +9,9 @@ let verifyToken = (req, res, next) => {
         if (err) {
           return res.status(401).json({
               of: false,
-              err: 'Invalid token!   :( '
+              err: {
+                  message: 'Invalid token!   :( '
+              }
           })
         }
         req.user = decoded.user;
