@@ -23,5 +23,4 @@ process.env.EXP_TOKEN = 60 * 60 * 24 * 30;
 process.env.SEED = process.env.SEED || 'maple-seeds-in-development';
 
 // Google Client ID
-
-process.env.CLIENT_ID = process.env.CLIENT_ID || '209494864617-2ck0evp492o45pihsq5os224png1qh6r.apps.googleusercontent.com';
+process.env.CLIENT_ID = process.env.CLIENT_ID || '209494864617-v41jlfeoiu7o8brp5qkjotag9d8mo82e.apps.googleusercontent.com';
