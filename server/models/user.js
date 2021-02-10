@@ -52,4 +52,4 @@ userSchema.methods.toJSON = function() {
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único'});
 
-module.exports = mongoose.model('User', userSchema); // la collecion se llamará... users
+module.exports = mongoose.model('User', userSchema); // la colección se llamará... users
