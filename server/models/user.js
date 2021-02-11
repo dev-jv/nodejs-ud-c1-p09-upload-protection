@@ -50,6 +50,6 @@ userSchema.methods.toJSON = function() {
     return userObject;
 };
 
-userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único'});
+userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique'});
 
-module.exports = mongoose.model('User', userSchema); // la colección se llamará... users
+module.exports = mongoose.model('User', userSchema); // The colecction name would be... users!!!

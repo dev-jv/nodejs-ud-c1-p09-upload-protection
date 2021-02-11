@@ -1,7 +1,7 @@
 
 const jwt = require('jsonwebtoken');
 
-// Verificar token
+// ----------------------------------------- <> Verify Token
 let verifyToken = (req, res, next) => {
     let token = req.get('token'); // Authorization
 
@@ -19,7 +19,8 @@ let verifyToken = (req, res, next) => {
     });
 };
 
-let verifyAdmin_Role =(req, res, next) => {
+// ----------------------------------------- <> Verify Admin
+let verifyAdmin_Role = (req, res, next) => {
    let user = req.user;
 
    if(user.role === 'ADMIN_ROLE') {
@@ -28,7 +29,7 @@ let verifyAdmin_Role =(req, res, next) => {
         return res.json({
             ok: false,
             err: {
-                message: 'El usuario no es un administrador'
+                message: 'The user is not an administrator'
             }
         })
    }

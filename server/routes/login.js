@@ -22,7 +22,7 @@ app.post('/login', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: '(Usuario) o contraseña incorrectos'
+                    message: 'Incorrect (user) or password'
                 }
             });
         }
@@ -30,7 +30,7 @@ app.post('/login', (req, res) => {
            return res.status(400).json({
                ok: false,
                err: {
-                   message: 'Usuario o (contraseña) incorrectos'
+                   message: 'Incorrect user or (password)'
                }
            });
        }
@@ -47,7 +47,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-// COnfiguraciones de Google
+// Google Settings
 async function verify(token) {
     const ticket = await client.verifyIdToken({
         idToken: token,
@@ -89,7 +89,7 @@ app.post('/google', async(req, res) => {
                 return res.status(400).json({
                     ok: false,
                     err: {
-                        message: 'Debe usar su autenticación normal'
+                        message: 'You must use your normal authentication'
                     }
                 });
             } else {

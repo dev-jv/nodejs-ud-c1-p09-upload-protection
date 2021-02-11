@@ -6,8 +6,8 @@ let Category = require('../models/category');
 app.get('/category', verifyToken, (req, res) => {
 
     Category.find({})
-        // .sort('description')
-        // .populate('user', 'name email')
+        .sort('description') // ...
+        .populate('user', 'name email') // shows attributes inside user
         .exec((err, categories) => {
             if(err) {
                 return res.status(500).json({
@@ -37,7 +37,7 @@ app.get('/category/:id', verifyToken, (req, res) => {
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'El ID no es correcto'
+                    message: 'Incorrect ID!'
                 }
             });
         }
@@ -123,13 +123,13 @@ app.delete('/category/:id', verifyToken, (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'El ID no existe'
+                    message: 'Non-existent ID!'
                 }
             });
         }
         res.json({
             ok: true,
-            message: 'Categoría elimanda!',
+            message: 'Category deleted!',
             ct: categoryDB
         })
     })

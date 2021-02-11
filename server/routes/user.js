@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const {verifyToken, verifyAdmin_Role} = require('../middlewares/authentication');
 
-app.get('/usuario', verifyToken, (req, res) => {
+app.get('/user', verifyToken, (req, res) => {
 
     // return res.json({
     //     user: req.user,
@@ -13,15 +13,15 @@ app.get('/usuario', verifyToken, (req, res) => {
     //     email: req.user.email,
     // });
 
-    let des = req.query.des || 0;
-    des = Number(des);
+    let frm = req.query.frm || 0;
+    frm = Number(frm);
 
     let lim = req.query.lim || 10;
     lim = Number(lim);
 
-   User.find({state: true}, 'name email') // Exclusión...
-       .skip(des) // desde...
-       .limit(lim) // cantidad..
+   User.find({state: true}, 'name email') // Exception...
+       .skip(frm) // from...
+       .limit(lim) // limit..
        .exec((err, usuarios) => {
             if( err ) {
                 return res.status(400).json({
@@ -39,7 +39,7 @@ app.get('/usuario', verifyToken, (req, res) => {
        });
 });
 
-app.post('/usuario', [verifyToken, verifyAdmin_Role], (req, res) => {
+app.post('/user', [verifyToken, verifyAdmin_Role], (req, res) => {
     let body = req.body;
 
     let user = new User({
@@ -50,7 +50,12 @@ app.post('/usuario', [verifyToken, verifyAdmin_Role], (req, res) => {
     });
 
     user.save( (err, userDB) => {
-
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
         res.json({
             ok: true,
             user: userDB
@@ -58,19 +63,19 @@ app.post('/usuario', [verifyToken, verifyAdmin_Role], (req, res) => {
     });
 });
 
-app.put('/usuario/:id', [verifyToken, verifyAdmin_Role], (req, res) => {
+app.put('/user/:id', [verifyToken, verifyAdmin_Role], (req, res) => {
     let id = req.params.id;
     // let body = req.body;
-    let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'state']); // excepto.. password, google
+    let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'state']); // except.. password, google
 
     // delete body.password;
     // delete body.google;
 
     User.findByIdAndUpdate(id, body, {
-        new: true, // Devuelve el obj actualizado
-        runValidators: true, // Permite las validaciones
-        context: 'query', // Permite mongoose-unique-validator
-        upsert: true // Permite la creación del obj si este no existe
+        new: true, // Returns updated obj
+        runValidators: true, // Allow validations
+        context: 'query', // Allow mongoose-unique-validator
+        upsert: true // Allow creation of the object if it does not exist
     },(err, userDB) => {
         if( err ) {
             return res.status(400).json({
@@ -85,8 +90,8 @@ app.put('/usuario/:id', [verifyToken, verifyAdmin_Role], (req, res) => {
     });
 });
 
-app.delete('/usuario/:id', verifyToken, (req, res) => {
-    //------------------------------ <> Eliminar en la DB
+app.delete('/user/:id', verifyToken, (req, res) => {
+    //------------------------------ <> Delete in DB
     // let id = req.params.id;
     // User.findByIdAndRemove(id, (err, userDel) => {
     //     if( err ) {
@@ -108,12 +113,12 @@ app.delete('/usuario/:id', verifyToken, (req, res) => {
     //         usuario: userDel
     //     })
     // })
-    //------------------------------ <> Cambiar el State a false
+    //------------------------------ <> Change State to false
     let id = req.params.id;
     User.findByIdAndUpdate(id, {state: false}, { // update: {...}
-        new: true, // Devuelve el obj actualizado
-        runValidators: true, // Permite las validaciones
-        context: 'query', // Permite mongoose-unique-validator
+        new: true, // Returns updated obj
+        runValidators: true, // Allow validations
+        context: 'query', // Allow mongoose-unique-validator
     }, (err, userDel) => {
         if( err ) {
             return res.status(400).json({
@@ -125,7 +130,7 @@ app.delete('/usuario/:id', verifyToken, (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no encontrado!'
+                    message: 'User not found!'
                 }
             });
         }
