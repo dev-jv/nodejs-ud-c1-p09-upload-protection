@@ -19,7 +19,7 @@ app.get('/user', verifyToken, (req, res) => {
     let lim = req.query.lim || 10;
     lim = Number(lim);
 
-   User.find({state: true}, 'name email') // Exception...
+   User.find({state: true}, 'name email role state google img') // Exception...
        .skip(frm) // from...
        .limit(lim) // limit..
        .exec((err, usuarios) => {
@@ -39,7 +39,7 @@ app.get('/user', verifyToken, (req, res) => {
        });
 });
 
-app.post('/user', [verifyToken, verifyAdmin_Role], (req, res) => {
+app.post('/user', [verifyToken, verifyAdmin_Role], function(req, res) {
     let body = req.body;
 
     let user = new User({

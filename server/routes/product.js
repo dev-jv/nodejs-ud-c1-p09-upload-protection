@@ -11,7 +11,7 @@ app.get('/products', verifyToken, (req, res) => {
 
     Product.find({available: true})
         .skip(frm)
-        .limit(5)
+        .limit(10)
         .populate('user', 'name email') // shows attributes inside user
         .populate('category', 'description') // shows attributes inside category
         .exec((err, products) => {
@@ -63,7 +63,7 @@ app.get('/products/search/:term', verifyToken, (req, res) => {
     let regex = new RegExp(term, 'i');
 
     Product.find({name: regex})
-        // .populate('category', 'name')
+        .populate('category', 'name')
         .exec((err, products) => {
             if(err) {
                 return res.status(500).json({
