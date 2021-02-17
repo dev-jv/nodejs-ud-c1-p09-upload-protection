@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const rolesValidos = {
     values: ['USER_ROLE', 'ADMIN_ROLE'],
-    message: '{VALUE} no es un rol válido'
+    message: '{VALUE} is not a valid role'
 };
 
 const Schema = mongoose.Schema;
@@ -12,16 +12,16 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'El nombre es necesario']
+        required: [true, 'Name required']
     },
     email: {
         type: String,
-        required: [true, 'El email es necesario'],
+        required: [true, 'Email required'],
         unique: true
     },
     password: {
         type: String,
-        required: [true, 'La contraseña es necesaria']
+        required: [true, 'Password required']
     },
     img: {
         type: String,
